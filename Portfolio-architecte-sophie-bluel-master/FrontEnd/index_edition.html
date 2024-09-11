@@ -21,7 +21,7 @@
             <ul>
                 <li>projets</li>
                 <li>contact</li>
-                <li><a href="login.html">login</a></li>
+                <li><a href="#" id="login-logout-link">Logout</a></li>
                 <li><img src="./assets/icons/instagram.png" alt="Instagram"></li>
             </ul>
         </nav>
@@ -71,32 +71,33 @@
         </div>
     </div>
 
-    <!-- Modale d'ajout de photo -->
-    <div id="addPhotoModal" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <span class="back"><i class="fa-solid fa-arrow-left"></i></span>
-            <h2>Ajout photo</h2>
-            <div class="upload-section">
-                <div class="upload-box">
-                    <i class="fa-regular fa-image" id="upload-icon"></i>
-                    <button type="button" class="add-photo-button" id="custom-file-button">+ Ajouter photo</button>
-                    <input type="file" id="photo-file" accept="image/png, image/jpeg" style="display: none;">
-                    <p id="file-chosen">jpg, png : 4mo max</p>
-                    <img id="uploaded-image" style="display: none;" />
-                </div>
+  <!-- Modale d'ajout de photo -->
+<div id="addPhotoModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <span class="back"><i class="fa-solid fa-arrow-left"></i></span>
+        <h2>Ajout photo</h2>
+        <div class="upload-section">
+            <div class="upload-box">
+                <i class="fa-regular fa-image" id="upload-icon"></i>
+                <button type="button" class="add-photo-button" id="custom-file-button">+ Ajouter photo</button>
+                <input type="file" id="photo-file" accept="image/png, image/jpeg" style="display: none;">
+                <p id="file-chosen">jpg, png : 4mo max</p>
+                <img id="uploaded-image" style="display: none;" />
             </div>
-            <form>
-                <label for="photo-title">Titre</label>
-                <input type="text" id="photo-title" name="photo-title">
-                <label for="photo-category">Catégorie</label>
-                <select id="photo-category" name="photo-category">
-                    <!-- Les options seront insérées ici dynamiquement -->
-                </select>
-                <input type="submit" value="Valider" id="submit-button" disabled>
-            </form>
         </div>
+        <form>
+            <label for="photo-title">Titre</label>
+            <input type="text" id="photo-title" name="photo-title">
+            <label for="photo-category">Catégorie</label>
+            <select id="photo-category" name="photo-category">
+                <!-- Les options seront insérées ici dynamiquement -->
+            </select>
+            <input type="submit" value="Valider" id="submit-button" disabled>
+        </form>
     </div>
+</div>
+
 
     <script src="assets/script.js"></script>
 </body>

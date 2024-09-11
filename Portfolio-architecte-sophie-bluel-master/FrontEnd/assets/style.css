@@ -126,6 +126,8 @@ li:hover {
 	text-align: center;
 	margin-bottom: 1em;
 }
+
+
 .gallery {
 	width: 100%;
 	display: grid;
@@ -306,4 +308,37 @@ li:hover {
 
 .footerLog nav ul li a:hover {
     text-decoration: underline;
+}
+
+/* Styles pour la section des filtres */
+#filters {
+    display: flex;
+    justify-content: center; /* Centre les boutons horizontalement */
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.filter-btn {
+    padding: 10px 20px;
+    border: 1px solid #1D6154;
+    border-radius: 60px;
+    background-color: inherit; /* Même couleur que le fond */
+    color: #1D6154; /* Texte en vert */
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 16px;
+}
+
+/* Style lorsque le bouton est survolé */
+.filter-btn:hover {
+    background-color: #1D6154;
+    color: #FFFFFF;
+}
+
+/* Style pour le bouton actif/sélectionné */
+.filter-btn.active {
+    background-color: #1D6154;
+    color: #FFFFFF;
 }
