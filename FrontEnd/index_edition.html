@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Sophie Bluel - Architecte d'intérieur (Édition)</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Work+Sans&display=swap" rel="stylesheet">
+    <meta name="description" content="">
+    <link rel="stylesheet" href="./assets/style_edition.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="banderole" id="edit-banner">
+        <i class="fa-regular fa-pen-to-square"></i> <h3>Mode édition</h3>
+    </div>
+    <header>
+        <h1>Sophie Bluel <span>Architecte d'intérieur</span></h1>
+        <nav>
+            <ul>
+                <li>projets</li>
+                <li>contact</li>
+                <li><a href="#" id="login-logout-link">Logout</a></li>
+                <li><img src="./assets/icons/instagram.png" alt="Instagram"></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <section id="introduction">
+            <figure>
+                <img src="assets/images/sophie-bluel.png" alt="">
+            </figure>
+            <article>
+                <h2>Designer d'espace</h2>
+                <p>Je raconte votre histoire, je valorise vos idées. Je vous accompagne de la conception à la livraison finale du chantier.</p>
+                <p>Chaque projet sera étudié en commun, de façon à mettre en valeur les volumes, les matières et les couleurs dans le respect de l’esprit des lieux et le choix adapté des matériaux. Le suivi du chantier sera assuré dans le souci du détail, le respect du planning et du budget.</p>
+                <p>En cas de besoin, une équipe pluridisciplinaire peut-être constituée : architecte DPLG, décorateur(trice)</p>
+            </article>
+        </section>
+        <section id="portfolio">
+            <h2>Mes Projets <a href="#" id="edit-link"><i class="fa-regular fa-pen-to-square"></i> Modifier</a></h2>
+            <div class="gallery" id="gallery">
+                <!-- Les travaux seront insérés ici -->
+            </div>
+        </section>
+        <section id="contact">
+            <h2>Contact</h2>
+            <p>Vous avez un projet ? Discutons-en !</p>
+            <form action="#" method="post">
+                <label for="name">Nom</label>
+                <input type="text" name="name" id="name">
+                <label for="email">Email</label>
+                <input type="email" name="email" id="email">
+                <label for="message">Message</label>
+                <textarea name="message" id="message" cols="30" rows="10"></textarea>
+                <input type="submit" value="Envoyer">
+            </form>
+        </section>
+    </main>
+
+    <!-- Modale -->
+    <div id="editModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Galerie photo</h2>
+            <div class="gallery_edition" id="gallery_edition">
+                <!-- Les travaux seront insérés ici -->
+            </div>
+            <button class="add-photo-button">Ajouter une photo</button>
+        </div>
+    </div>
+
+  <!-- Modale d'ajout de photo -->
+<div id="addPhotoModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <span class="back"><i class="fa-solid fa-arrow-left"></i></span>
+        <h2>Ajout photo</h2>
+        <div class="upload-section">
+            <div class="upload-box">
+                <i class="fa-regular fa-image" id="upload-icon"></i>
+                <button type="button" class="add-photo-button" id="custom-file-button">+ Ajouter photo</button>
+                <input type="file" id="photo-file" accept="image/png, image/jpeg" style="display: none;">
+                <p id="file-chosen">jpg, png : 4mo max</p>
+                <img id="uploaded-image" style="display: none;" />
+            </div>
+        </div>
+        <form>
+            <label for="photo-title">Titre</label>
+            <input type="text" id="photo-title" name="photo-title">
+            <label for="photo-category">Catégorie</label>
+            <select id="photo-category" name="photo-category">
+                <!-- Les options seront insérées ici dynamiquement -->
+            </select>
+            <input type="submit" value="Valider" id="submit-button" disabled>
+        </form>
+    </div>
+</div>
+
+
+    <script src="assets/script.js"></script>
+</body>
+</html>

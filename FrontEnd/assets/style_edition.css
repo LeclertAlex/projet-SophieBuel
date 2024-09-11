@@ -1,0 +1,459 @@
+/* http://meyerweb.com/eric/tools/css/reset/
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+
+/* Reset CSS */
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+
+body {
+	line-height: 1;
+	background-color: #FFFEF8;
+}
+
+ol, ul {
+	list-style: none;
+}
+
+blockquote, q {
+	quotes: none;
+}
+
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+/* Fin Reset CSS */
+
+/* Styles généraux du corps */
+body {
+	max-width: 1440px;
+    margin: auto;
+    font-family: 'Work Sans';
+    font-size: 14px;
+}
+
+/* Styles pour le Header */
+header {
+	display: flex;
+    justify-content: space-between;
+    margin: 50px 20%;
+}
+
+h1 {
+	display: flex;
+	flex-direction: column;
+	font-family: 'Syne';
+	font-size: 22px;
+	font-weight: 800;
+	color: #B1663C;
+}
+
+h1 > span {
+	font-family: 'Work Sans';
+	font-size: 10px;
+	letter-spacing: 0.1em;
+}
+
+/* Styles pour la navigation */
+nav ul {
+	display: flex;
+	align-items: center;
+	list-style-type: none;
+}
+
+nav li {
+	padding: 0 10px;
+	font-size: 1.2em;
+}
+
+li:hover {
+	color: #B1663C;
+}
+
+/* Styles pour les sections */
+section {
+	margin: 50px 20%;
+}
+
+/* Section Introduction */
+#introduction {
+	display: flex;
+	align-items: center;
+}
+
+#introduction figure {
+	flex: 1;
+}
+
+#introduction img {
+	display: block;
+    width: 80%;
+}
+
+#introduction article {
+	flex: 1;
+}
+
+#introduction h2 {
+	margin-bottom: 1em;
+    font-family: 'Syne';
+    font-weight: 700;
+    font-size: 30px;
+    color: #1D6154;
+}
+
+#introduction p {
+	margin-bottom: 0.5em;
+}
+
+/* Section Portfolio */
+#portfolio h2 {
+	text-align: center;
+	margin-bottom: 1em;
+	text-align: center;
+    margin-bottom: 1em;
+    font-family: 'Syne';
+    font-weight: 700;
+    font-size: 30px;
+    color: #1D6154;
+}
+
+.gallery {
+	width: 100%;
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr;
+	grid-column-gap: 20px;
+	grid-row-gap: 20px;
+}
+
+.gallery img {
+	width: 274px;
+    height: 367px;
+    object-fit: cover;
+}
+
+/* Section Contact */
+#contact {
+	width: 50%;
+    margin: auto;
+}
+
+#contact > * {
+	text-align: center;
+}
+
+#contact h2 {
+	margin-bottom: 20px;
+}
+
+#contact form {
+	text-align: left;
+	margin-top: 30px;
+	display: flex;
+	flex-direction: column;
+}
+
+#contact input {
+	height: 50px;
+	font-size: 1.2em;
+	border: none;
+	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+}
+
+#contact label {
+	margin: 2em 0 1em 0;
+}
+
+#contact textarea {
+	border: none;
+	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+}
+
+input[type="submit"] {
+	font-family: 'Syne';
+	font-weight: 700;
+	color: white;
+	background-color: #1D6154;
+	margin: 2em auto;
+	width: 180px;
+	text-align: center;
+	border-radius: 60px;
+}
+
+/* Styles pour le Footer */
+footer nav ul {
+	display: flex;
+	justify-content: flex-end;
+	background-color: #fff;
+	margin: 2em;
+}
+
+.hidden {
+	display: none;
+}
+
+/* Styles pour la bannière */
+.banderole {
+	background-color: black;
+	color: white;
+	text-align: center;
+	padding: 10px 0;
+	position: fixed;
+	top: 0;
+	width: 100%;
+	z-index: 1000;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	cursor: pointer;
+}
+
+.banderole i {
+	margin-right: 10px;
+}
+
+/* Styles généraux pour les modales */
+.modal {
+	display: none; /* Masqué par défaut */
+	position: fixed; /* Reste en place */
+	z-index: 1; /* Au-dessus des autres éléments */
+	left: 0;
+	top: 0;
+	width: 100%; /* Pleine largeur */
+	height: 100%; /* Pleine hauteur */
+	overflow: auto; /* Permet le défilement si nécessaire */
+	background-color: rgba(0, 0, 0, 0.4); /* Noir avec opacité */
+}
+
+.modal-content {
+	background-color: #fefefe;
+	margin: 5% auto; /* Centré */
+	padding: 20px;
+	border: 1px solid #888;
+	width: 60%; /* Peut être plus ou moins large selon la taille de l'écran */
+	max-width: 800px;
+	text-align: center;
+}
+
+.close, .back {
+	color: #aaa;
+	float: right;
+	font-size: 28px;
+	font-weight: bold;
+	cursor: pointer;
+}
+
+.close:hover, .close:focus, .back:hover, .back:focus {
+	color: black;
+	text-decoration: none;
+}
+
+.back {
+	float: left;
+    font-size: 18px;
+    margin-top: 10px;
+}
+
+/* Styles pour la modale d'édition */
+.gallery_edition {
+	display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 700px;
+    margin: 0 auto;
+}
+
+.gallery_edition .project {
+	background-color: #fff;
+	position: relative;
+	margin: 2px;
+	width: 129px; /* Ajuster la largeur pour s'adapter */
+	height: 193px; /* Ajuster la hauteur pour s'adapter */
+	margin-top: 20px;
+}
+
+.gallery_edition img {
+	width: 129px;
+    height: 193px;
+    border-radius: 5px;
+    object-fit: cover;
+}
+
+.gallery_edition .delete-button {
+	position: absolute;
+	top: 5px;
+	right: 5px;
+	background: black;
+	border: none;
+	color: white;
+	font-size: 18px;
+	cursor: pointer;
+}
+
+.add-photo-button {
+	padding: 10px 20px;
+	background-color: #1D6154;
+	color: #fff;
+	border: none;
+	border-radius: 5px;
+	cursor: pointer;
+	margin-top: 20px;
+}
+
+.add-photo-button:hover {
+	background-color: #145A3E;
+}
+
+/* Styles pour la modale d'ajout de photo */
+.upload-section {
+	margin: 20px 0;
+}
+
+.upload-box {
+	width: 420px;
+	height: 169px;
+	background-color: #E8F1F6;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	margin: 0 auto;
+	position: relative;
+}
+
+.upload-box i, .upload-box button, .upload-box p {
+	display: block;
+}
+
+.upload-box img {
+	display: none;
+	width: 129px;
+	height: 193px;
+	object-fit: cover;
+}
+
+.upload-box i {
+	font-size: 48px;
+	margin-bottom: 10px;
+}
+
+.upload-box button {
+	padding: 10px 20px;
+	background-color: #1D6154;
+	color: #fff;
+	border: none;
+	border-radius: 5px;
+	cursor: pointer;
+}
+
+.upload-box button:hover {
+	background-color: #145A3E;
+}
+
+#photo-file {
+	display: none;
+}
+
+#file-chosen {
+	margin-top: 10px;
+	font-size: 14px;
+	color: #333;
+}
+
+/* Styles pour le formulaire dans la modale d'ajout de photo */
+form {
+	display: flex;
+	flex-direction: column;
+	width: 420px;
+	gap: 10px;
+	flex-wrap: wrap;
+	margin-left: 23%;
+}
+
+form label {
+	align-self: flex-start; /* Aligner les labels à gauche */
+	margin-bottom: 5px;
+}
+
+form input[type="text"] {
+	width: 100%; /* Largeur complète dans le formulaire */
+	padding: 10px;
+	border: 1px solid #ccc;
+	border-radius: 5px;
+}
+
+form input[type="submit"] {
+	width: 40%; 
+	padding: 10px;
+	border: 1px solid #ccc;
+	border-radius: 5px;
+}
+
+form input[type="submit"]:disabled {
+	background-color: #A7A7A7;
+	cursor: not-allowed;
+}
+
+form input[type="submit"]:enabled {
+	background-color: #1D6154;
+}
+
+/* Styles pour le select dans le formulaire */
+select#photo-category {
+    width: 100%; /* Utiliser toute la largeur disponible */
+    padding: 10px; /* Ajouter du padding pour l'espacement interne */
+    border: 1px solid #ccc; /* Définir la bordure */
+    border-radius: 5px; /* Ajouter des coins arrondis */
+    font-size: 16px; /* Définir la taille de la police */
+    background-color: #fff; /* Couleur de fond */
+    box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09); /* Ajouter une ombre */
+    -webkit-appearance: none; /* Supprimer l'apparence par défaut sur WebKit */
+    -moz-appearance: none; /* Supprimer l'apparence par défaut sur Firefox */
+    appearance: none; /* Supprimer l'apparence par défaut sur d'autres navigateurs */
+}
+
+/* Pour supporter l'icône personnalisée uniquement sur les navigateurs spécifiques */
+select#photo-category::-ms-expand {
+    display: none; /* Masquer l'icône par défaut sur Internet Explorer */
+}
+
+/* Optionnel : ajouter une icône de flèche personnalisée pour le select */
+select#photo-category {
+    background-image: url('path/to/your/icon.png'); /* Chemin vers votre icône personnalisée */
+    background-repeat: no-repeat;
+    background-position: right 10px center; /* Positionner l'icône à droite */
+    background-size: 12px; /* Taille de l'icône */
+}
