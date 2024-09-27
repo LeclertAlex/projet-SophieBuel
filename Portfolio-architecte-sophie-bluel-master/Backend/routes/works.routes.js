@@ -10,4 +10,3 @@ router.get('/', workCtrl.findAll);
 router.delete('/:id', auth, workCtrl.delete);
 
 module.exports = router;
-
