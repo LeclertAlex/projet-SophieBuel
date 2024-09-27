@@ -32,7 +32,7 @@ function updateLoginLogoutLink() {
         console.warn('Element login-logout-link non trouvé dans le DOM.');
     }
 }
-
+document.addEventListener('DOMContentLoaded', updateLoginLogoutLink);
 // Charger les travaux et les catégories existants
 document.addEventListener('DOMContentLoaded', () => {
     loadWorks();       // Charger les projets
@@ -48,7 +48,8 @@ async function loadWorks() {
             throw new Error('Erreur lors du chargement des travaux.');
         }
         const works = await response.json();
-        displayWorks(works);  // Affiche les travaux dans la galerie
+        displayWorks(works);  // Affiche les travaux dans la galerie principale
+        displayWorksInEdition(works);  // Affiche les travaux dans la galerie d'édition
     } catch (error) {
         console.error('Erreur lors du chargement des travaux:', error);
     }
@@ -64,6 +65,21 @@ function displayWorks(works) {
                 <figcaption>${work.title}</figcaption>
             </figure>
         `).join('');
+    }
+}
+
+function displayWorksInEdition(works) {
+    const galleryEdition = document.getElementById('gallery_edition');
+    if (galleryEdition) {
+        galleryEdition.innerHTML = works.map(work => `
+            <div class="project" data-id="${work.id}">
+                <img src="${work.imageUrl}" alt="${work.title}">
+                <button class="delete-button"><i class="fa-regular fa-trash-can"></i></button>
+            </div>
+        `).join('');
+
+        // Ajouter des écouteurs d'événements pour les boutons de suppression
+        addDeleteEventListeners();
     }
 }
 

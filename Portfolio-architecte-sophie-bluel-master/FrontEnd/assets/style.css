@@ -137,12 +137,13 @@ li:hover {
 }
 
 .gallery img {
-	width: 100%;
-
+	width: 400px;
+    height: 600px;
+    object-fit: cover;
 }
 #contact {
 	width: 50%;
-margin: auto;
+    margin: auto;
 }
 #contact > * {
 	text-align: center;
