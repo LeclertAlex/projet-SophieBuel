@@ -12,35 +12,35 @@ function updateLoginLogoutLink() {
     const token = localStorage.getItem('token');
     const loginLogoutLink = document.getElementById('login-logout-link');
 
-    if (token) {
-        // Si l'utilisateur est connecté, afficher "Logout"
-        loginLogoutLink.textContent = 'Logout';
-        loginLogoutLink.href = '#';
-        loginLogoutLink.addEventListener('click', (event) => {
-            event.preventDefault();
-            // Supprimer le token et rediriger vers la page d'accueil
-            localStorage.removeItem('token');
-            window.location.href = 'index.html';
-        });
+    if (loginLogoutLink) {
+        if (token) {
+            // Si l'utilisateur est connecté, afficher "Logout"
+            loginLogoutLink.textContent = 'Logout';
+            loginLogoutLink.href = '#';
+            loginLogoutLink.addEventListener('click', (event) => {
+                event.preventDefault();
+                // Supprimer le token et rediriger vers la page d'accueil
+                localStorage.removeItem('token');
+                window.location.href = 'index.html';
+            });
+        } else {
+            // Si l'utilisateur n'est pas connecté, afficher "Login"
+            loginLogoutLink.textContent = 'Login';
+            loginLogoutLink.href = 'login.html';
+        }
     } else {
-        // Si l'utilisateur n'est pas connecté, afficher "Login"
-        loginLogoutLink.textContent = 'Login';
-        loginLogoutLink.href = 'login.html';
+        console.warn('Element login-logout-link non trouvé dans le DOM.');
     }
 }
 
-// Initialisation de l'état de la page
+// Charger les travaux et les catégories existants
 document.addEventListener('DOMContentLoaded', () => {
-    checkLoginStatus();
-    updateLoginLogoutLink();  // Met à jour le lien Login/Logout
-
-    // Charger les travaux et les catégories existants
-    loadWorks();
-    loadCategories();  // Charger les catégories à la fois pour la modale et les filtres
-    initFilters();  // Initialise les filtres
+    loadWorks();       // Charger les projets
+    loadCategories();  // Charger les catégories pour les filtres
+    initFilters();     // Initialiser les filtres
 });
 
-// Récupère les travaux et les affiche dans la galerie
+// Récupère les travaux et les affiche dans la galerie principale
 async function loadWorks() {
     try {
         const response = await fetch('http://localhost:5678/api/works');
@@ -48,7 +48,7 @@ async function loadWorks() {
             throw new Error('Erreur lors du chargement des travaux.');
         }
         const works = await response.json();
-        displayWorks(works);
+        displayWorks(works);  // Affiche les travaux dans la galerie
     } catch (error) {
         console.error('Erreur lors du chargement des travaux:', error);
     }
@@ -57,33 +57,77 @@ async function loadWorks() {
 // Affiche les travaux dans la galerie
 function displayWorks(works) {
     const gallery = document.getElementById('gallery');
-    const galleryEdition = document.getElementById('gallery_edition');
-
-    // Remplit la galerie principale
     if (gallery) {
         gallery.innerHTML = works.map(work => `
-            <figure data-id="${work.id}" data-category="${work.category.name}">
+            <figure data-id="${work.id}" data-category="${work.category ? work.category.name : ''}">
                 <img src="${work.imageUrl}" alt="${work.title}">
                 <figcaption>${work.title}</figcaption>
             </figure>
         `).join('');
     }
-
-    // Remplit la galerie d'édition (si elle existe)
-    if (galleryEdition) {
-        galleryEdition.innerHTML = works.map(work => `
-            <div class="project" data-id="${work.id}">
-                <img src="${work.imageUrl}" alt="${work.title}">
-                <button class="delete-button"><i class="fa-regular fa-trash-can"></i></button>
-            </div>
-        `).join('');
-        addDeleteEventListeners();  // Active les boutons de suppression
-    }
-
-    initFilters();  // Réinitialise les filtres à chaque fois que les travaux sont affichés
 }
 
-// Ajoute des gestionnaires d'événements pour les boutons de suppression dans la galerie d'édition
+// Fonction pour ajouter un projet (ajout dynamique à la galerie principale)
+document.addEventListener('DOMContentLoaded', () => {
+    const addPhotoForm = document.querySelector('#addPhotoModal form');
+    if (addPhotoForm) {
+        addPhotoForm.addEventListener('submit', async (event) => {
+            event.preventDefault();
+
+            const photoTitleInput = document.getElementById('photo-title');
+            const photoCategorySelect = document.getElementById('photo-category');
+            const photoFileInput = document.getElementById('photo-file');
+
+            if (photoTitleInput && photoCategorySelect && photoFileInput) {
+                const token = localStorage.getItem('token');
+                if (!token) {
+                    console.error('Token introuvable !');
+                    return;
+                }
+
+                const formData = new FormData();
+                formData.append('title', photoTitleInput.value);
+                formData.append('category', photoCategorySelect.value);
+                formData.append('image', photoFileInput.files[0]);
+
+                try {
+                    const response = await fetch('http://localhost:5678/api/works', {
+                        method: 'POST',
+                        headers: {
+                            'Authorization': `Bearer ${token}`
+                        },
+                        body: formData
+                    });
+
+                    if (!response.ok) {
+                        const errorResponse = await response.json();
+                        console.error('Erreur lors de l\'ajout du projet:', errorResponse);
+                        return;
+                    }
+
+                    const newWork = await response.json();
+                    console.log('Projet ajouté avec succès:', newWork);
+
+                    // Ajoute le nouveau projet à la galerie principale
+                    const gallery = document.getElementById('gallery');
+                    if (gallery) {
+                        gallery.innerHTML += `
+                            <figure data-id="${newWork.id}" data-category="${newWork.category ? newWork.category.name.toLowerCase() : 'undefined'}">
+                                <img src="${newWork.imageUrl}" alt="${newWork.title}">
+                                <figcaption>${newWork.title}</figcaption>
+                            </figure>
+                        `;
+                    }
+
+                } catch (error) {
+                    console.error('Erreur lors de l\'ajout du projet:', error);
+                }
+            }
+        });
+    }
+});
+
+// Suppression dynamique des projets dans la galerie principale et d'édition
 function addDeleteEventListeners() {
     const deleteButtons = document.querySelectorAll('.gallery_edition .delete-button');
     deleteButtons.forEach(button => {
@@ -102,13 +146,14 @@ function addDeleteEventListeners() {
                 }
                 projectDiv.remove();  // Supprime l'élément dans la galerie d'édition
                 const galleryProject = document.querySelector(`figure[data-id="${id}"]`);
-                if (galleryProject) galleryProject.remove();  // Supprime dans la galerie principale
+                if (galleryProject) galleryProject.remove();  // Supprime dans la galerie principale (index.html)
             } catch (error) {
                 console.error('Erreur lors de la suppression du projet:', error);
             }
         });
     });
 }
+
 
 // Charge les catégories dans la modale d'ajout de photo et évite les doublons
 async function loadCategories() {
@@ -203,7 +248,6 @@ function initFilters() {
     // Par défaut, afficher tous les projets
     filterProjects('all');
 }
-
 // Vérifie la validité du formulaire pour l'ajout de photo et active le bouton de validation
 function checkFormValidity() {
     const photoTitleInput = document.getElementById('photo-title');
@@ -334,6 +378,10 @@ document.addEventListener('DOMContentLoaded', () => {
             const photoTitleInput = document.getElementById('photo-title');
             const photoCategorySelect = document.getElementById('photo-category');
             const photoFileInput = document.getElementById('photo-file');
+            const uploadedImage = document.getElementById('uploaded-image');
+            const uploadIcon = document.getElementById('upload-icon');
+            const customFileButton = document.getElementById('custom-file-button');
+            const fileChosenText = document.getElementById('file-chosen');
 
             if (photoTitleInput && photoCategorySelect && photoFileInput) {
                 const token = localStorage.getItem('token');
@@ -370,7 +418,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     const galleryEdition = document.getElementById('gallery_edition');
 
                     const newProjectHTML = `
-                        <figure data-id="${newWork.id}" data-category="${newWork.category.name.toLowerCase()}">
+                        <figure data-id="${newWork.id}" data-category="${newWork.category ? newWork.category.name.toLowerCase() : 'undefined'}">
                             <img src="${newWork.imageUrl}" alt="${newWork.title}">
                             <figcaption>${newWork.title}</figcaption>
                         </figure>
@@ -387,8 +435,16 @@ document.addEventListener('DOMContentLoaded', () => {
                         addDeleteEventListeners();  // Réinitialise les boutons de suppression
                     }
 
-                    addPhotoModal.style.display = 'none';  // Ferme la modale après l'ajout
+                    // Réinitialise la modale après l'ajout
+                    photoTitleInput.value = '';
+                    photoCategorySelect.selectedIndex = 0;
+                    photoFileInput.value = '';
+                    uploadedImage.style.display = 'none';
+                    uploadIcon.style.display = 'block';
+                    customFileButton.style.display = 'block';
+                    fileChosenText.style.display = 'block';
 
+                    addPhotoModal.style.display = 'none';  // Ferme la modale après l'ajout
                     initFilters();  // Réinitialise les filtres pour inclure les nouveaux projets
 
                 } catch (error) {
@@ -398,8 +454,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
-
-// Script pour la connexion
 const loginForm = document.getElementById('login-form');
 if (loginForm) {
     loginForm.addEventListener('submit', async (event) => {
@@ -407,6 +461,11 @@ if (loginForm) {
 
         const email = document.getElementById('email').value;
         const password = document.getElementById('password').value;
+
+        // Réinitialiser l'affichage des erreurs
+        document.getElementById('error-email').style.display = 'none';
+        document.getElementById('error-password').style.display = 'none';
+        document.getElementById('error-general').style.display = 'none';
 
         try {
             const response = await fetch('http://localhost:5678/api/users/login', {
@@ -420,14 +479,32 @@ if (loginForm) {
             const result = await response.json();
 
             if (response.ok) {
+                // Connexion réussie
                 localStorage.setItem('token', result.token);
-                window.location.href = 'index_edition.html';  // Redirige vers la page d'édition après connexion réussie
+                window.location.href = 'index_edition.html';
             } else {
-                document.getElementById('error-message').textContent = result.message;
+                // Gestion des erreurs spécifiques
+                if (result.error === 'email incorrect') {
+                    document.getElementById('error-email').textContent = 'Email incorrect';
+                    document.getElementById('error-email').style.display = 'block';
+                } else if (result.error === 'password incorrect') {
+                    document.getElementById('error-password').textContent = 'Mot de passe incorrect';
+                    document.getElementById('error-password').style.display = 'block';
+                } else {
+                    document.getElementById('error-general').textContent = 'Une erreur est survenue. Veuillez réessayer.';
+                    document.getElementById('error-general').style.display = 'block';
+                }
             }
+
         } catch (error) {
             console.error('Erreur:', error);
-            document.getElementById('error-message').textContent = 'Une erreur est survenue. Veuillez réessayer.';
+            document.getElementById('error-general').textContent = 'Une erreur est survenue. Veuillez réessayer.';
+            document.getElementById('error-general').style.display = 'block';
         }
     });
-};
+}
+
+
+
+
+
