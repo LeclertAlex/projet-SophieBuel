@@ -43,7 +43,7 @@ document.addEventListener('DOMContentLoaded', () => {
 // Récupère les travaux et les affiche dans la galerie principale
 async function loadWorks() {
     try {
-        const response = await fetch('http://localhost:5678/api/works');
+        const response = await fetch('http://localhost:5500/api/works');
         if (!response.ok) {
             throw new Error('Erreur lors du chargement des travaux.');
         }
